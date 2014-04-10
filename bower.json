@@ -1,0 +1,29 @@
+{
+  "name": "peer-js-devices",
+  "version": "0.1.0",
+  "homepage": "https://github.com/adambutler/peer-js-devices",
+  "authors": [
+    "Adam Butler <adam@lab.io>"
+  ],
+  "description": "Handy helper classes to help you manage and maintain connections with peer.js",
+  "main": "dist/index.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "webrtc",
+    "peer.js",
+    "devices",
+    "peer-js-devices"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}
