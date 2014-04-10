@@ -94,7 +94,7 @@
       if (this.debug) {
         console.log("Connection open");
       }
-      return this.callEvents('connectionOpen');
+      return this.callEvent('connectionOpen');
     };
 
     DeviceConnection.prototype.setupTimeout = function() {

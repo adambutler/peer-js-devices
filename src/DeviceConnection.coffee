@@ -76,7 +76,7 @@ class DeviceConnection
     console.log "Connection open" if @debug
 
     # Call the connectionOpen event.
-    @callEvents 'connectionOpen'
+    @callEvent 'connectionOpen'
 
   # In certain conditions the connection of the DeviceConnection may drop
   # unexpectedly or the host may not be reachable at the time of connecting.
