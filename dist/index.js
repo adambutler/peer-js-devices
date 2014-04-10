@@ -1,104 +1,4 @@
 (function() {
-  var Client, root,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-  Client = (function(_super) {
-    __extends(Client, _super);
-
-    function Client() {
-      return Client.__super__.constructor.apply(this, arguments);
-    }
-
-    Client.prototype.ping = function(payload, interval, qty) {
-      if (payload == null) {
-        payload = 'ping';
-      }
-      if (interval == null) {
-        interval = 5000;
-      }
-      if (qty == null) {
-        qty = false;
-      }
-      this.pingQueue = qty;
-      return this.pingTimer = setInterval((function(_this) {
-        return function() {
-          var deviceConnection, _i, _len, _ref;
-          if (_this.pingQueue === false || _this.pingQueue > 0) {
-            console.log("Sending payload - " + payload);
-            _ref = _this.deviceConnections;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              deviceConnection = _ref[_i];
-              deviceConnection.connection.send(payload);
-            }
-            if (_this.pingQueue !== false) {
-              return _this.pingQueue = _this.pingQueue - 1;
-            }
-          } else {
-            return clearTimeout(_this.pingTimer);
-          }
-        };
-      })(this), interval);
-    };
-
-    return Client;
-
-  })(Device);
-
-  root = typeof exports !== "undefined" && exports !== null ? exports : this;
-
-  root.Client = Client;
-
-}).call(this);
-
-(function() {
-  var Device, root;
-
-  Device = (function() {
-    Device.prototype.deviceConnections = [];
-
-    function Device(id, host, port) {
-      this.id = id;
-      this.host = host != null ? host : '127.0.0.1';
-      this.port = port != null ? port : 9000;
-      if (this.id == null) {
-        this.id = null;
-      }
-      this.peer = new Peer(this.id, {
-        host: this.host,
-        port: this.port
-      });
-      this.setupEvents();
-    }
-
-    Device.prototype.setupEvents = function() {
-      return this.peer.on("connection", (function(_this) {
-        return function(connection) {
-          var deviceConnection;
-          deviceConnection = new DeviceConnection(_this, connection);
-          return _this.deviceConnections.push(deviceConnection);
-        };
-      })(this));
-    };
-
-    Device.prototype.createDeviceConnection = function() {
-      var deviceConnection;
-      deviceConnection = new DeviceConnection(this);
-      this.deviceConnections.push(deviceConnection);
-      return deviceConnection;
-    };
-
-    return Device;
-
-  })();
-
-  root = typeof exports !== "undefined" && exports !== null ? exports : this;
-
-  root.Device = Device;
-
-}).call(this);
-
-(function() {
   var DeviceConnection, root,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -243,6 +143,106 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   root.DeviceConnection = DeviceConnection;
+
+}).call(this);
+
+(function() {
+  var Device, root;
+
+  Device = (function() {
+    Device.prototype.deviceConnections = [];
+
+    function Device(id, host, port) {
+      this.id = id;
+      this.host = host != null ? host : '127.0.0.1';
+      this.port = port != null ? port : 9000;
+      if (this.id == null) {
+        this.id = null;
+      }
+      this.peer = new Peer(this.id, {
+        host: this.host,
+        port: this.port
+      });
+      this.setupEvents();
+    }
+
+    Device.prototype.setupEvents = function() {
+      return this.peer.on("connection", (function(_this) {
+        return function(connection) {
+          var deviceConnection;
+          deviceConnection = new DeviceConnection(_this, connection);
+          return _this.deviceConnections.push(deviceConnection);
+        };
+      })(this));
+    };
+
+    Device.prototype.createDeviceConnection = function() {
+      var deviceConnection;
+      deviceConnection = new DeviceConnection(this);
+      this.deviceConnections.push(deviceConnection);
+      return deviceConnection;
+    };
+
+    return Device;
+
+  })();
+
+  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+
+  root.Device = Device;
+
+}).call(this);
+
+(function() {
+  var Client, root,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Client = (function(_super) {
+    __extends(Client, _super);
+
+    function Client() {
+      return Client.__super__.constructor.apply(this, arguments);
+    }
+
+    Client.prototype.ping = function(payload, interval, qty) {
+      if (payload == null) {
+        payload = 'ping';
+      }
+      if (interval == null) {
+        interval = 5000;
+      }
+      if (qty == null) {
+        qty = false;
+      }
+      this.pingQueue = qty;
+      return this.pingTimer = setInterval((function(_this) {
+        return function() {
+          var deviceConnection, _i, _len, _ref;
+          if (_this.pingQueue === false || _this.pingQueue > 0) {
+            console.log("Sending payload - " + payload);
+            _ref = _this.deviceConnections;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              deviceConnection = _ref[_i];
+              deviceConnection.connection.send(payload);
+            }
+            if (_this.pingQueue !== false) {
+              return _this.pingQueue = _this.pingQueue - 1;
+            }
+          } else {
+            return clearTimeout(_this.pingTimer);
+          }
+        };
+      })(this), interval);
+    };
+
+    return Client;
+
+  })(Device);
+
+  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+
+  root.Client = Client;
 
 }).call(this);
 
