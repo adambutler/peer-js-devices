@@ -4,7 +4,12 @@ concat = require("gulp-concat")
 uglify = require("gulp-uglify")
 
 paths =
-  src: ["src/**/*.coffee"]
+  src: [
+    "src/DeviceConnection.coffee"
+    "src/Device.coffee"
+    "src/Client.coffee"
+    "src/Presenter.coffee"
+  ]
   dist: "dist"
 
 gulp.task "build", ->
