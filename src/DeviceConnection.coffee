@@ -20,9 +20,10 @@ class DeviceConnection
 
   # The callEvent method is used to call events in the DeviceConnection events
   # object. These are added by the on method.
-  callEvent: (eventType) ->
+  callEvent: (eventType, data) ->
+    data = {} unless data?
     if @events[eventType]?
-      event() for event in @events[eventType]
+      event(data) for event in @events[eventType]
 
   # The setupEvents method is called once a DeviceConnection connection is
   # created. This can either be on the constructor or the dial method.
@@ -39,6 +40,8 @@ class DeviceConnection
     @autoreconnect = autoreconnect if autoreconnect?
     @connection.close()
 
+    @callEvent 'connectionClose'
+
   # The connectionData method is called when the error event is fired on the
   # connection of the DeviceConnection.
   connectionData: (data) =>
@@ -46,13 +49,16 @@ class DeviceConnection
     setTimeout((=> @connection.send('ping')), 1000) if data is 'pong'
     console.log "Got data", data
 
+    @callEvent 'connectionData', data
+
   # The connectionError method is called when the error event is fired on the
   # connection of the DeviceConnection.
   connectionError: (err) =>
     @connectionLive = false
     @connect() if @autoreconnect
-    console.log "An error ooccurred"
-    console.log e
+    console.log "An error ooccurred", err if @debug
+
+    @callEvent 'connectionClose', err
 
   # The connectionClose method is called when the close event is fired on the
   # connection of the DeviceConnection.
@@ -60,6 +66,8 @@ class DeviceConnection
     @connectionLive = false
     @connect() if @autoreconnect
     console.log "Connection closed"
+
+    @callEvent 'connectionClose'
 
   # The connectionOpen method is called when the `open` event is fired on the
   # connection of the DeviceConnection.

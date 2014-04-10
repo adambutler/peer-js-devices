@@ -18,14 +18,17 @@
       return this.events[eventType].push(callback);
     };
 
-    DeviceConnection.prototype.callEvent = function(eventType) {
+    DeviceConnection.prototype.callEvent = function(eventType, data) {
       var event, _i, _len, _ref, _results;
+      if (data == null) {
+        data = {};
+      }
       if (this.events[eventType] != null) {
         _ref = this.events[eventType];
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           event = _ref[_i];
-          _results.push(event());
+          _results.push(event(data));
         }
         return _results;
       }
@@ -48,7 +51,8 @@
       if (autoreconnect != null) {
         this.autoreconnect = autoreconnect;
       }
-      return this.connection.close();
+      this.connection.close();
+      return this.callEvent('connectionClose');
     };
 
     DeviceConnection.prototype.connectionData = function(data) {
@@ -66,7 +70,8 @@
           };
         })(this)), 1000);
       }
-      return console.log("Got data", data);
+      console.log("Got data", data);
+      return this.callEvent('connectionData', data);
     };
 
     DeviceConnection.prototype.connectionError = function(err) {
@@ -74,8 +79,10 @@
       if (this.autoreconnect) {
         this.connect();
       }
-      console.log("An error ooccurred");
-      return console.log(e);
+      if (this.debug) {
+        console.log("An error ooccurred", err);
+      }
+      return this.callEvent('connectionClose', err);
     };
 
     DeviceConnection.prototype.connectionClose = function() {
@@ -83,7 +90,8 @@
       if (this.autoreconnect) {
         this.connect();
       }
-      return console.log("Connection closed");
+      console.log("Connection closed");
+      return this.callEvent('connectionClose');
     };
 
     DeviceConnection.prototype.connectionOpen = function() {
