@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello World Example</title>
+  <script type="text/javascript" src="../peer.js"></script>
+  <script type="text/javascript" src="../../dist/index.js"></script>
+</head>
+<body>
+
+  <script type="text/javascript">
+
+    var client, deviceConnection, presenter;
+
+    presenter = new Presenter('presenter')
+
+    client = new Client;
+
+    deviceConnection = client.createDeviceConnection();
+
+    deviceConnection.dial('presenter');
+
+    deviceConnection.on('connectionOpen', function() {
+      return deviceConnection.send('ping');
+    });
+
+
+  </script>
+
+</body>
+</html>
