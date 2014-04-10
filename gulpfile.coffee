@@ -26,4 +26,4 @@ gulp.task "build", ->
 gulp.task "watch", ->
   gulp.watch src, ["build"]
 
-gulp.task "default", ["build"]
+gulp.task "default", ["build", "watch"]
