@@ -1,5 +1,6 @@
 # peer-js-devices
-===============
+
+Status: Working but in early stage of development. Use with caution.
 
 ## About
 
