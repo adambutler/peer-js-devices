@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/adambutler/peer-js-devices/issues"
   },
-  "homepage": "https://github.com/adambutler/peer-js-devices"
+  "homepage": "https://github.com/adambutler/peer-js-devices",
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "gulp-coffee": "~1.4.1",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp": "~3.6.0"
+  }
 }
